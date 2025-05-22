@@ -19,14 +19,19 @@ def render_scene(camera, ambient, lights, objects, screen_size, max_depth):
             color = np.zeros(3)
 
             # This is the main loop where each pixel color is computed.
-            # TODO
-
+            # first, lets find the nearest intersection point and object.
+            intersection = ray.nearest_intersected_object(objects)
+            if intersection is not None:
+                color = get_color(ray, intersection)
             
-            # We clip the values between 0 and 1 so all pixel values will make sense.
             image[i, j] = np.clip(color,0,1)
-
     return image
 
+def get_color(ray, intersection):
+    # the color is defined by 1. the light source, 2. the object properties, and 3. the intersection point gemotry
+    intersection_point, intersection_t, min_obj = intersection
+    color = min_obj.ambient
+    return color
 
 # Write your own objects and lights
 # TODO
